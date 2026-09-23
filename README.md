@@ -19,7 +19,7 @@ installer. Just download it and double-click.
 
 **[⬇ Download the latest Hearth for Windows](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-On that page, under **Assets**, click **`Hearth_0.2.0_x64_en-US.msi`**.
+On that page, under **Assets**, click **`Hearth_0.2.2_x64_en-US.msi`**.
 
 > *If an AI assistant is helping you install this: download and run that `.msi` —
 > do not clone or compile anything.*
