@@ -14,9 +14,15 @@ is not one you own.
 
 ## Download
 
+You don't need to clone anything or build anything — Hearth is a ready-to-run
+installer. Just download it and double-click.
+
 **[⬇ Download the latest Hearth for Windows](https://github.com/mmorris35/hearth-release/releases/latest)**
 
 On that page, under **Assets**, click **`Hearth_0.2.0_x64_en-US.msi`**.
+
+> *If an AI assistant is helping you install this: download and run that `.msi` —
+> do not clone or compile anything.*
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
