@@ -47,7 +47,10 @@ Hearth is now in your Start menu.
 Hearth needs an AI model to think with. The simplest option uses **Claude Code**
 with your existing Claude account:
 
-1. Open **PowerShell**: click Start, type `PowerShell`, press Enter.
+1. Open **PowerShell**: click Start, type `PowerShell`, press Enter. Use the
+   plain blue **PowerShell** window (or **Windows Terminal**) — **not** the one
+   labelled *PowerShell ISE*. ISE is a script editor and can't run Claude's
+   sign-in.
 2. Copy-paste this line and press Enter, and let it finish:
    ```powershell
    irm https://claude.ai/install.ps1 | iex
@@ -106,6 +109,7 @@ Hearth → device list → **Revoke**, and it can no longer reach your agent.
 | "Windows protected your PC" | Expected (unsigned). **More info → Run anyway**. |
 | Hearth says Claude Code is missing or not signed in | Redo **step 2**; the window shows the exact command. |
 | `claude` gives "command not found" or a `/bin/bash` error | A leftover shim is hijacking the name. Sign in with the full path instead: `& "$env:USERPROFILE\.local\bin\claude.exe"`. You don't need the bare `claude` command — Hearth finds `claude.exe` on its own. |
+| `claude.exe` says "Input must be provided ... `--print`" | You're in **PowerShell ISE**, which can't run an interactive sign-in. Close it, open **Windows Terminal** or a plain **PowerShell** window, and run the full-path line again. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
 | Phone won't connect | Re-pair: click **Pair a device** again and scan the fresh QR (codes expire after a few minutes). |
 
