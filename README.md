@@ -48,18 +48,28 @@ Hearth needs an AI model to think with. The simplest option uses **Claude Code**
 with your existing Claude account:
 
 1. Open **PowerShell**: click Start, type `PowerShell`, press Enter.
-2. Copy-paste this line and press Enter:
+2. Copy-paste this line and press Enter, and let it finish:
    ```powershell
    irm https://claude.ai/install.ps1 | iex
    ```
-3. When it finishes, type `claude` and press Enter. A browser opens — **sign in
-   with your Claude account**. Once it says you're signed in, close the window.
+3. **Close PowerShell and open a new PowerShell window** (so it sees the new
+   install). Then sign in by running Claude Code directly — copy-paste this and
+   press Enter:
+   ```powershell
+   & "$env:USERPROFILE\.local\bin\claude.exe"
+   ```
+   Claude Code opens and asks you to sign in — **sign in with your Claude
+   account**, then close it. That's it.
 
-That's the exact command Hearth shows you if it can't find Claude Code, so you
-can't get it wrong.
+> **Why the full path?** Typing just `claude` may work, but the line above always
+> works even if PATH isn't set or a leftover shim gets in the way. **If `claude`
+> gave you `command not found` or a `/bin/bash` error, that's expected on some
+> machines — use the full-path line above.** And you do **not** need the bare
+> `claude` command for Hearth: Hearth finds `claude.exe` in `.local\bin` by
+> itself. You only need to sign in once.
 
 > **Prefer an API key instead?** Open Hearth → **Model** settings → pick a
-> provider → paste your key.
+> provider → paste your key. (Then you can skip Claude Code entirely.)
 
 ## 3. Meet your agent
 
@@ -95,6 +105,7 @@ Hearth → device list → **Revoke**, and it can no longer reach your agent.
 |---|---|
 | "Windows protected your PC" | Expected (unsigned). **More info → Run anyway**. |
 | Hearth says Claude Code is missing or not signed in | Redo **step 2**; the window shows the exact command. |
+| `claude` gives "command not found" or a `/bin/bash` error | A leftover shim is hijacking the name. Sign in with the full path instead: `& "$env:USERPROFILE\.local\bin\claude.exe"`. You don't need the bare `claude` command — Hearth finds `claude.exe` on its own. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
 | Phone won't connect | Re-pair: click **Pair a device** again and scan the fresh QR (codes expire after a few minutes). |
 
