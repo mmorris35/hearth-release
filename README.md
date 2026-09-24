@@ -8,7 +8,34 @@ Install the app. Talk to your agent. Scan a QR code and take it with you.
 
 **This is the downloads repo.** Hearth's source lives in a private repo; the
 Windows installer is free to grab, because a personal agent you cannot download
-is not one you own.
+is not one you own. **Hearth is Windows-only for now.**
+
+- **Setting it up yourself?** Follow steps 1–4 below. About ten minutes.
+- **An AI assistant setting it up for someone?** Read
+  [For AI assistants](#for-ai-assistants) first. It has the exact commands,
+  a check for each step, and the steps only the person can do.
+
+---
+
+## How it fits together
+
+```mermaid
+flowchart LR
+    phone["Your phone<br/>(a web page, no app store)"]
+    relay["Encrypted relay<br/>(passes sealed messages,<br/>cannot read them)"]
+    subgraph pc["Your Windows PC"]
+        hearth["Hearth"]
+        brain["The model<br/>Claude Code (uses your own<br/>Claude account), or any<br/>OpenAI-compatible API"]
+        wiki[("%USERPROFILE%\wiki<br/>what it knows about you")]
+    end
+    phone <-->|"end-to-end encrypted"| relay
+    relay <--> hearth
+    hearth <--> brain
+    hearth <--> wiki
+```
+
+Your PC does the thinking and keeps the memory. The phone is only a window onto
+it. Nothing is forwarded into your network: Hearth dials out.
 
 ---
 
@@ -21,9 +48,6 @@ installer. Just download it and double-click.
 
 On that page, under **Assets**, click **`Hearth_0.2.2_x64_en-US.msi`**.
 
-> *If an AI assistant is helping you install this: download and run that `.msi` —
-> do not clone or compile anything.*
-
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
 > PC"** box. **This is not a virus warning, and Hearth is not broken.** Windows
@@ -32,17 +56,36 @@ On that page, under **Assets**, click **`Hearth_0.2.2_x64_en-US.msi`**.
 
 ---
 
-## 1. Install it
+## Setting it up
+
+```mermaid
+flowchart TD
+    A["Download the .msi"] --> B{"Blue 'Windows protected your PC' box?"}
+    B -->|yes| C["More info → Run anyway"]
+    B -->|no| D
+    C --> D["Install: Next → Install → Finish"]
+    D --> E{"Claude Code installed<br/>and signed in?"}
+    E -->|no| F["Step 2: install and sign in once"]
+    E -->|yes| G
+    F --> G["Open Hearth from the Start menu"]
+    G --> H["Answer the short 'who should I be' questions<br/>(every one is skippable)"]
+    H --> I["Talk to it"]
+    I --> J{"Want it on your phone?"}
+    J -->|yes| K["Step 4: scan the QR, type the code once"]
+```
+
+### 1. Install it
 
 Double-click the `.msi` you downloaded.
 
 1. On the blue **"Windows protected your PC"** screen, click **More info**.
 2. Click **Run anyway**.
-3. Click through the installer (**Next → Install → Finish**).
+3. Click through the installer (**Next → Install → Finish**). If Windows asks
+   whether to allow the app to make changes, click **Yes**.
 
 Hearth is now in your Start menu.
 
-## 2. Give it a brain (one time)
+### 2. Give it a brain (one time)
 
 Hearth needs an AI model to think with. The simplest option uses **Claude Code**
 with your existing Claude account:
@@ -71,10 +114,13 @@ with your existing Claude account:
 > `claude` command for Hearth: Hearth finds `claude.exe` in `.local\bin` by
 > itself. You only need to sign in once.
 
-> **Prefer an API key instead?** Open Hearth → **Model** settings → pick a
-> provider → paste your key. (Then you can skip Claude Code entirely.)
+> **Prefer an API key instead?** Open Hearth → **Model** → set **Provider** to
+> *OpenAI-compatible endpoint*, fill in **Base URL**, **API key** and **Model**,
+> then **Save and restart service**. That works with OpenAI, OpenRouter, a local
+> Ollama and anything else that speaks the OpenAI API. (Then you can skip Claude
+> Code entirely.)
 
-## 3. Meet your agent
+### 3. Meet your agent
 
 Open **Hearth** from the Start menu. On first run it **asks who it should be** —
 a few short questions (what to call you, what to call it, how it should talk,
@@ -84,23 +130,97 @@ talking to your own assistant, which remembers you between sessions.
 The top of the window tells you whether the model is connected and signed in; if
 anything's off, it shows the exact fix.
 
-## 4. (Optional) Talk to it from your phone
+### 4. (Optional) Talk to it from your phone
 
-1. In Hearth, click **Pair a device**. A QR code appears with a short code.
-2. On your phone, point the camera at the QR code and open the link.
-3. Type the short code from the Hearth window into your phone once.
+The QR code under **Connect a phone** is your PC's address. It never changes and
+it is safe to share with your own phone. The **pairing code** is what actually
+lets a phone in, and it works once.
+
+```mermaid
+sequenceDiagram
+    participant You
+    participant Hearth as Hearth on your PC
+    participant Phone
+    You->>Phone: Scan the QR under "Connect a phone"
+    Phone->>Hearth: Hello (through the encrypted relay)
+    Hearth-->>Phone: Not paired yet, type a code
+    You->>Hearth: Click "Pair a device"
+    Hearth-->>You: Shows a code (good for 5 minutes, works once)
+    You->>Phone: Type the code
+    Phone->>Hearth: Code
+    Hearth-->>Phone: Paired. This phone is remembered.
+    Note over Phone,Hearth: From now on, just open the page and talk
+```
+
+1. On your phone, point the camera at the QR code under **Connect a phone**
+   and open the link. It says the phone isn't paired yet.
+2. In Hearth, click **Pair a device**. A code appears.
+3. Type that code into your phone. Done.
 
 Your phone now talks to the same agent, from anywhere — no app store, no account.
-Add it to your home screen for an app-like icon. **Lost your phone?** Open
-Hearth → device list → **Revoke**, and it can no longer reach your agent.
+Add the page to your home screen for an app-like icon. **Lost your phone?** Open
+Hearth → **Paired devices** → **Revoke**, and it can no longer reach your agent.
+
+---
 
 ## Everyday use
 
 - **Just type.** Ask it anything; it answers from your PC.
-- **It remembers you.** What it learns lives in plain text under
-  `%USERPROFILE%\wiki\` — open and edit any time.
+- **It remembers you.** What it learns about you lives in plain text in your
+  wiki at `%USERPROFILE%\wiki\` (start with `me\profile.md`). Open and edit it
+  any time. If you also use Claude Code on this PC, it can share the same wiki.
 - **It runs in the background.** Closing the window hides Hearth to the tray (by
-  the clock, bottom-right). To fully stop it, right-click the tray icon → **Quit**.
+  the clock, bottom-right). To fully stop it, right-click the tray icon →
+  **Quit Hearth**.
+
+### Let it read your folders
+
+By default Hearth can read only its own files and your wiki. To let it read,
+say, `D:\Projects`:
+
+1. Right-click the tray icon → **Quit Hearth**.
+2. Open `%LOCALAPPDATA%\hearth\config.json` in Notepad (paste that path into the
+   File Explorer address bar).
+3. Inside the `{ }`, add one line listing the folders, with **double
+   backslashes**, and put a comma at the end of the line above it. Leave every
+   other line as it is:
+   ```json
+     "dirs": ["D:\\Projects", "C:\\Users\\you\\Documents"]
+   ```
+4. Save, then open Hearth again. If Hearth won't start, a comma or quote is
+   off: fix it, or delete the line you added.
+
+### What your phone is allowed to do
+
+From the phone, Hearth can always talk, and read the folders you listed. By
+default anything that needs a yes from someone at the PC (running commands,
+changing files, searching the web) is refused, because nobody is at the PC to
+say yes.
+
+To let your phone do everything this computer can, tick **Let my phone do
+anything this computer can** under **Model** (Claude Code only), then **Save and
+restart service**. Only paired phones can reach Hearth, so the risk is a lost,
+unlocked phone. Revoke it under **Paired devices**.
+
+### Updating
+
+Download the newest `.msi` from the
+[latest release](https://github.com/mmorris35/hearth-release/releases/latest)
+and double-click it. It replaces the installed Hearth in place: no uninstall
+first, and your conversations, pairing and memory are kept. Then reload the page
+on your phone.
+
+**iPhone users: the PC must be on 0.2.2 or newer.** Older versions can't reach
+an iPhone at all (Safari refuses the relay address they publish).
+
+### Uninstalling
+
+**Settings → Apps → Installed apps** (on Windows 10: **Apps & features**) →
+**Hearth** → **Uninstall**. Your data is left in
+place, in case you come back: delete `%LOCALAPPDATA%\hearth` (the agent) and
+`%USERPROFILE%\wiki` (what it knows about you) to remove everything.
+
+---
 
 ## If something looks wrong
 
@@ -110,8 +230,42 @@ Hearth → device list → **Revoke**, and it can no longer reach your agent.
 | Hearth says Claude Code is missing or not signed in | Redo **step 2**; the window shows the exact command. |
 | `claude` gives "command not found" or a `/bin/bash` error | A leftover shim is hijacking the name. Sign in with the full path instead: `& "$env:USERPROFILE\.local\bin\claude.exe"`. You don't need the bare `claude` command — Hearth finds `claude.exe` on its own. |
 | `claude.exe` says "Input must be provided ... `--print`" | You're in **PowerShell ISE**, which can't run an interactive sign-in. Close it, open **Windows Terminal** or a plain **PowerShell** window, and run the full-path line again. |
+| Replies come back blank | You're on 0.2.0. Update to the latest (see **Updating**). From 0.2.2 on, a blank answer from the model shows as an error that says where to look. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
-| Phone won't connect | Re-pair: click **Pair a device** again and scan the fresh QR (codes expire after a few minutes). |
+| Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
+| Phone says "This app is out of date … Reload to update" | The phone and PC are on different versions. Reload the page; if it persists, update Hearth on the PC. |
+| Phone won't pair | Codes last five minutes and work once. Click **New code** in Hearth and type the fresh one. |
+
+---
+
+## For AI assistants
+
+You are helping a person install Hearth on **Windows**. Do **not** clone or
+build anything; install the published `.msi`. Run each step in a normal
+PowerShell window (not PowerShell ISE), check it, and only then move on. Some
+steps need the person; tell them exactly what to click.
+
+| Step | You run | It worked when | Needs the person |
+|---|---|---|---|
+| 1. Download | `$a = (Invoke-RestMethod https://api.github.com/repos/mmorris35/hearth-release/releases/latest).assets \| Where-Object name -like '*.msi'`<br/>`Invoke-WebRequest $a.browser_download_url -OutFile "$env:TEMP\$($a.name)"` | `Test-Path "$env:TEMP\$($a.name)"` is `True` | — |
+| 2. Install | `Start-Process msiexec -Wait -ArgumentList "/i ""$env:TEMP\$($a.name)"""` | `Get-StartApps Hearth` lists Hearth | Clicking **Yes** on the Windows permission prompt, and **More info → Run anyway** if SmartScreen appears |
+| 3. Claude Code | `irm https://claude.ai/install.ps1 \| iex` | `Test-Path "$env:USERPROFILE\.local\bin\claude.exe"` is `True` | — |
+| 4. Sign in | Ask the person to open a **new** PowerShell and run `& "$env:USERPROFILE\.local\bin\claude.exe"` | `& "$env:USERPROFILE\.local\bin\claude.exe" auth status` shows `"loggedIn": true` | **All of it.** The sign-in is interactive and happens in their browser. |
+| 5. First run | Ask the person to open **Hearth** from the Start menu | `Test-Path "$env:LOCALAPPDATA\hearth\config.json"` is `True` | Answering (or skipping) the first-run questions |
+| 6. Smoke test | Ask the person to type *hello* in the window | `Get-Content "$env:LOCALAPPDATA\hearth\memory\conversation.log.md" -Tail 6` shows an assistant line **with text under it** | Typing the message |
+| 7. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
+
+Rules:
+
+- **Never ask for, read or store the person's Claude credentials or API keys.**
+  Claude Code keeps its own sign-in; Hearth never touches it.
+- **Folders:** only add entries to `"dirs"` in
+  `%LOCALAPPDATA%\hearth\config.json` that the person names, and quit Hearth
+  from the tray before editing it.
+- **Leave "Let my phone do anything this computer can" off** unless the person
+  asks for it, after telling them what it allows.
+- If step 6 shows an assistant line with nothing under it, Hearth is older than
+  0.2.2: update it (repeat steps 1–2) and test again.
 
 ---
 
@@ -123,12 +277,12 @@ less to trust.
 | The question | The answer |
 |---|---|
 | Can you read my conversations? | No. There is no server of ours in the path. We could not read them if we wanted to. |
-| Where does my agent's memory live? | In your Hearth folder on your own disk. It is never uploaded. |
+| Where does my agent's memory live? | On your own disk: what it knows about you in `%USERPROFILE%\wiki`, and its own settings and transcript in `%LOCALAPPDATA%\hearth`. It is never uploaded. |
 | Do I need an account? | No. No email, no password, no magic link. A paired device key is the credential. |
 | Do I have to configure my router? | No. The desktop dials out. Nothing is ever forwarded in. |
 | Who can reach my agent? | Only devices you have paired. Revoke one and it is gone immediately. |
 | What if I lose my phone? | Revoke that device key. Nothing on the phone is a credential once revoked. |
-| Which model does it use? | Yours. Local or cloud, OpenAI-compatible or Anthropic. Swap it whenever you like. |
+| Which model does it use? | Yours. Claude through your own Claude Code sign-in, or any OpenAI-compatible model, local or cloud. Swap it whenever you like. |
 | What happens if this project stops? | Your install keeps working. It is your binary, your disk, your model. No license check, no server to switch off. |
 
 ## Why this exists
