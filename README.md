@@ -153,7 +153,9 @@ sequenceDiagram
 ```
 
 1. On your phone, point the camera at the QR code under **Connect a phone**
-   and open the link. It says the phone isn't paired yet.
+   and open the link. It says the phone isn't paired yet. (If you only just
+   opened Hearth, give it about 15 seconds first; until then the phone can't
+   find it yet and says it couldn't catch up.)
 2. In Hearth, click **Pair a device**. A code appears.
 3. Type that code into your phone. Done.
 
@@ -238,7 +240,7 @@ place, in case you come back: delete `%LOCALAPPDATA%\hearth` (the agent) and
 | Installer stuck on **"Validating install"** | The old Hearth is still running. Click **Cancel**; if a *files in use* box appears, choose to close the applications and it continues. Otherwise cancel, right-click the tray icon → **Quit Hearth** (end any leftover Hearth in Task Manager), and run the `.msi` again. |
 | Replies come back blank | You're on 0.2.0. Update to the latest (see **Updating**). From 0.2.2 on, a blank answer from the model shows as an error that says where to look. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
-| Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
+| Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep. If you only just started Hearth, wait 15 seconds and reload. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
 | Phone says "This app is out of date … Reload to update" | The phone and PC are on different versions. Reload the page; if it persists, update Hearth on the PC. |
 | Phone won't pair | Codes last five minutes and work once. Click **New code** in Hearth and type the fresh one. |
 
