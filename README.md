@@ -204,11 +204,16 @@ unlocked phone. Revoke it under **Paired devices**.
 
 ### Updating
 
-Download the newest `.msi` from the
-[latest release](https://github.com/mmorris35/hearth-release/releases/latest)
-and double-click it. It replaces the installed Hearth in place: no uninstall
-first, and your conversations, pairing and memory are kept. Then reload the page
-on your phone.
+1. **Quit Hearth first:** right-click the Hearth icon in the tray (by the
+   clock) → **Quit Hearth**. Closing the window is not enough; it keeps running
+   in the tray, and a running Hearth can make the installer hang at
+   *"Validating install"*.
+2. Download the newest `.msi` from the
+   [latest release](https://github.com/mmorris35/hearth-release/releases/latest)
+   and double-click it.
+
+It replaces the installed Hearth in place: no uninstall first, and your
+conversations, pairing and memory are kept. Then reload the page on your phone.
 
 **iPhone users: the PC must be on 0.2.2 or newer.** Older versions can't reach
 an iPhone at all (Safari refuses the relay address they publish).
@@ -230,6 +235,7 @@ place, in case you come back: delete `%LOCALAPPDATA%\hearth` (the agent) and
 | Hearth says Claude Code is missing or not signed in | Redo **step 2**; the window shows the exact command. |
 | `claude` gives "command not found" or a `/bin/bash` error | A leftover shim is hijacking the name. Sign in with the full path instead: `& "$env:USERPROFILE\.local\bin\claude.exe"`. You don't need the bare `claude` command — Hearth finds `claude.exe` on its own. |
 | `claude.exe` says "Input must be provided ... `--print`" | You're in **PowerShell ISE**, which can't run an interactive sign-in. Close it, open **Windows Terminal** or a plain **PowerShell** window, and run the full-path line again. |
+| Installer stuck on **"Validating install"** | The old Hearth is still running. Click **Cancel**; if a *files in use* box appears, choose to close the applications and it continues. Otherwise cancel, right-click the tray icon → **Quit Hearth** (end any leftover Hearth in Task Manager), and run the `.msi` again. |
 | Replies come back blank | You're on 0.2.0. Update to the latest (see **Updating**). From 0.2.2 on, a blank answer from the model shows as an error that says where to look. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
 | Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
@@ -248,7 +254,7 @@ steps need the person; tell them exactly what to click.
 | Step | You run | It worked when | Needs the person |
 |---|---|---|---|
 | 1. Download | `$a = (Invoke-RestMethod https://api.github.com/repos/mmorris35/hearth-release/releases/latest).assets \| Where-Object name -like '*.msi'`<br/>`Invoke-WebRequest $a.browser_download_url -OutFile "$env:TEMP\$($a.name)"` | `Test-Path "$env:TEMP\$($a.name)"` is `True` | — |
-| 2. Install | `Start-Process msiexec -Wait -ArgumentList "/i ""$env:TEMP\$($a.name)"""` | `Get-StartApps Hearth` lists Hearth | Clicking **Yes** on the Windows permission prompt, and **More info → Run anyway** if SmartScreen appears |
+| 2. Install | If Hearth is already installed, have the person quit it from the tray first (see **Updating**).<br/>`Start-Process msiexec -Wait -ArgumentList "/i ""$env:TEMP\$($a.name)"""` | `Get-StartApps Hearth` lists Hearth | Clicking **Yes** on the Windows permission prompt, and **More info → Run anyway** if SmartScreen appears |
 | 3. Claude Code | `irm https://claude.ai/install.ps1 \| iex` | `Test-Path "$env:USERPROFILE\.local\bin\claude.exe"` is `True` | — |
 | 4. Sign in | Ask the person to open a **new** PowerShell and run `& "$env:USERPROFILE\.local\bin\claude.exe"` | `& "$env:USERPROFILE\.local\bin\claude.exe" auth status` shows `"loggedIn": true` | **All of it.** The sign-in is interactive and happens in their browser. |
 | 5. First run | Ask the person to open **Hearth** from the Start menu | `Test-Path "$env:LOCALAPPDATA\hearth\config.json"` is `True` | Answering (or skipping) the first-run questions |
