@@ -46,7 +46,7 @@ installer. Just download it and double-click.
 
 **[⬇ Download the latest Hearth for Windows](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-On that page, under **Assets**, click **`Hearth_0.2.2_x64_en-US.msi`**.
+On that page, under **Assets**, click **`Hearth_0.2.3_x64_en-US.msi`**.
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
@@ -114,7 +114,7 @@ with your existing Claude account:
 > `claude` command for Hearth: Hearth finds `claude.exe` in `.local\bin` by
 > itself. You only need to sign in once.
 
-> **Prefer an API key instead?** Open Hearth → **Model** → set **Provider** to
+> **Prefer an API key instead?** Open Hearth → **Settings** → **Model** → set **Provider** to
 > *OpenAI-compatible endpoint*, fill in **Base URL**, **API key** and **Model**,
 > then **Save and restart service**. That works with OpenAI, OpenRouter, a local
 > Ollama and anything else that speaks the OpenAI API. (Then you can skip Claude
@@ -127,12 +127,14 @@ a few short questions (what to call you, what to call it, how it should talk,
 what it's for), and every one is skippable. Answer them and you're immediately
 talking to your own assistant, which remembers you between sessions.
 
-The top of the window tells you whether the model is connected and signed in; if
-anything's off, it shows the exact fix.
+The window opens on **Chat**. Everything else (your phone, folders, the model,
+the identity questions) is on the **Settings** tab. The top of the window tells
+you whether the model is connected and signed in; if anything's off, it shows
+the exact fix.
 
 ### 4. (Optional) Talk to it from your phone
 
-The QR code under **Connect a phone** is your PC's address. It never changes and
+The QR code under **Settings → Connect a phone** is your PC's address. It never changes and
 it is safe to share with your own phone. The **pairing code** is what actually
 lets a phone in, and it works once.
 
@@ -152,8 +154,8 @@ sequenceDiagram
     Note over Phone,Hearth: From now on, just open the page and talk
 ```
 
-1. On your phone, point the camera at the QR code under **Connect a phone**
-   and open the link. It says the phone isn't paired yet. (If you only just
+1. On your phone, point the camera at the QR code under **Settings → Connect a
+   phone** and open the link. It says the phone isn't paired yet. (If you only just
    opened Hearth, give it about 15 seconds first; until then the phone can't
    find it yet and says it couldn't catch up.)
 2. In Hearth, click **Pair a device**. A code appears.
@@ -161,7 +163,8 @@ sequenceDiagram
 
 Your phone now talks to the same agent, from anywhere — no app store, no account.
 Add the page to your home screen for an app-like icon. **Lost your phone?** Open
-Hearth → **Paired devices** → **Revoke**, and it can no longer reach your agent.
+Hearth → **Settings** → **Paired devices** → **Revoke**, and it can no longer
+reach your agent.
 
 ---
 
@@ -175,33 +178,30 @@ Hearth → **Paired devices** → **Revoke**, and it can no longer reach your ag
   the clock, bottom-right). To fully stop it, right-click the tray icon →
   **Quit Hearth**.
 
-### Let it read your folders
+### Let it read (and edit) your folders
 
-By default Hearth can read only its own files and your wiki. To let it read,
-say, `D:\Projects`:
+By default Hearth can read only its own files and your wiki. To add a folder:
 
-1. Right-click the tray icon → **Quit Hearth**.
-2. Open `%LOCALAPPDATA%\hearth\config.json` in Notepad (paste that path into the
-   File Explorer address bar).
-3. Inside the `{ }`, add one line listing the folders, with **double
-   backslashes**, and put a comma at the end of the line above it. Leave every
-   other line as it is:
-   ```json
-     "dirs": ["D:\\Projects", "C:\\Users\\you\\Documents"]
-   ```
-4. Save, then open Hearth again. If Hearth won't start, a comma or quote is
-   off: fix it, or delete the line you added.
+1. **Settings → Folders → Browse…**, pick the folder (or type a path and click
+   **Add**).
+2. Tick **Phone may edit** if you want it to be able to create and change files
+   there when you're talking to it from your phone. (At the PC it can always
+   edit.)
+3. Click **Save folders and restart service**.
+
+Hearth refuses a folder that doesn't exist and tells you which one, so a typo
+can't quietly leave it blind.
 
 ### What your phone is allowed to do
 
-From the phone, Hearth can always talk, and read the folders you listed. By
-default anything that needs a yes from someone at the PC (running commands,
-changing files, searching the web) is refused, because nobody is at the PC to
-say yes.
+From the phone, Hearth can always talk and read the folders you listed, and it
+can change files in any folder ticked **Phone may edit**. Anything else that
+needs a yes from someone at the PC (running commands, changing other files,
+searching the web) is refused, because nobody is at the PC to say yes.
 
 To let your phone do everything this computer can, tick **Let my phone do
-anything this computer can** under **Model** (Claude Code only), then **Save and
-restart service**. Only paired phones can reach Hearth, so the risk is a lost,
+anything this computer can** under **Settings → Model** (Claude Code only), then
+**Save and restart service**. Only paired phones can reach Hearth, so the risk is a lost,
 unlocked phone. Revoke it under **Paired devices**.
 
 ### Updating
@@ -268,9 +268,11 @@ Rules:
 
 - **Never ask for, read or store the person's Claude credentials or API keys.**
   Claude Code keeps its own sign-in; Hearth never touches it.
-- **Folders:** only add entries to `"dirs"` in
-  `%LOCALAPPDATA%\hearth\config.json` that the person names, and quit Hearth
-  from the tray before editing it.
+- **Folders:** add only folders the person names, through **Settings →
+  Folders** (preferred). If you must edit `%LOCALAPPDATA%\hearth\config.json`
+  directly, quit Hearth from the tray first: `"dirs"` lists the readable
+  folders and `"edit_dirs"` the subset the phone may edit, with backslashes
+  doubled.
 - **Leave "Let my phone do anything this computer can" off** unless the person
   asks for it, after telling them what it allows.
 - If step 6 shows an assistant line with nothing under it, Hearth is older than
