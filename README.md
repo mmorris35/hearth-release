@@ -46,7 +46,7 @@ installer. Just download it and double-click.
 
 **[⬇ Download the latest Hearth for Windows](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-On that page, under **Assets**, click **`Hearth_0.2.3_x64_en-US.msi`**.
+On that page, under **Assets**, click **`Hearth_0.3.0_x64_en-US.msi`**.
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
@@ -162,7 +162,16 @@ sequenceDiagram
 3. Type that code into your phone. Done.
 
 Your phone now talks to the same agent, from anywhere — no app store, no account.
-Add the page to your home screen for an app-like icon. **Lost your phone?** Open
+Add the page to your home screen for an app-like icon.
+
+**Notifications.** Once the page is on your home screen, tap **Desktops ▾ →
+Turn on notifications** and allow them. (iPhone: iOS 18.4 or newer, and the PC
+on 0.3.0 or newer.) Then, if you ask something and leave the app before the
+answer comes, the answer arrives as a notification; tap it to open Hearth.
+Answers you watched arrive don't notify twice. Your PC sends these itself,
+encrypted: Apple or Google delivers them without being able to read them.
+
+**Lost your phone?** Open
 Hearth → **Settings** → **Paired devices** → **Revoke**, and it can no longer
 reach your agent.
 
