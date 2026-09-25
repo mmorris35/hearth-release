@@ -44,9 +44,9 @@ it. Nothing is forwarded into your network: Hearth dials out.
 You don't need to clone anything or build anything — Hearth is a ready-to-run
 installer. Just download it and double-click.
 
-**[⬇ Download the latest Hearth for Windows or Mac](https://github.com/mmorris35/hearth-release/releases/latest)**
+**[⬇ Download the latest Hearth for Windows, Mac or Linux](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-**Windows:** on that page, under **Assets**, click **`Hearth_0.3.0_x64_en-US.msi`**. (Mac: see [On a Mac](#on-a-mac) below.)
+**Windows:** on that page, under **Assets**, click **`Hearth_0.3.1_x64_en-US.msi`**. (Mac: see [On a Mac](#on-a-mac) below.)
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
@@ -58,8 +58,8 @@ installer. Just download it and double-click.
 
 On the same page, under **Assets**:
 
-- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.0_aarch64.dmg`**
-- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.0_x64.dmg`**
+- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.1_aarch64.dmg`**
+- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.1_x64.dmg`**
 
 Open the `.dmg` and drag **Hearth** into **Applications**.
 
@@ -88,6 +88,19 @@ Hearth finds it there by itself.
 Apart from that, everything below is written for Windows but works the same on a
 Mac. The tray icon is in the **menu bar** (top right), and your wiki is at
 `~/wiki/`.
+
+### On Linux
+
+On the same page, under **Assets**, download **`Hearth_0.3.1_amd64.deb`** (64-bit
+Intel/AMD; built on Ubuntu 22.04, so Ubuntu 22.04 or newer, Debian 12 or newer,
+and their derivatives). Install it with:
+```
+sudo apt install ./Hearth_0.3.1_amd64.deb
+```
+Then open **Hearth** from your applications menu. The tray icon needs a desktop
+with tray support. GNOME needs the *AppIndicator* extension (Ubuntu ships it on).
+To give it a brain, use the Mac line above (`curl -fsSL https://claude.ai/install.sh | bash`,
+then `~/.local/bin/claude` to sign in).
 
 ---
 
@@ -157,10 +170,14 @@ with your existing Claude account:
 
 ### 3. Meet your agent
 
-Open **Hearth** from the Start menu. On first run it **asks who it should be** —
-a few short questions (what to call you, what to call it, how it should talk,
-what it's for), and every one is skippable. Answer them and you're immediately
-talking to your own assistant, which remembers you between sessions.
+Open **Hearth** from the Start menu. On first run the chat opens with it
+**asking who it should be**: a few short questions (what to call you, what to
+call it, how it should talk, what it's for), and every one is skippable. Answer
+them and you're immediately talking to your own assistant, which remembers you
+between sessions.
+
+Never been asked, or want to change your answers? **Settings → Identity →
+Start the identity interview** (it says **Re-run** once you've done it).
 
 The window opens on **Chat**. Everything else (your phone, folders, the model,
 the identity questions) is on the **Settings** tab. The top of the window tells
@@ -197,7 +214,10 @@ sequenceDiagram
 3. Type that code into your phone. Done.
 
 Your phone now talks to the same agent, from anywhere — no app store, no account.
-Add the page to your home screen for an app-like icon.
+Add the page to your home screen for an app-like icon. **A second computer?**
+In the app, tap **Desktops ▾ → Add a desktop… → Scan QR** and point it at that
+computer's QR. Don't use the phone's own camera app for this: it opens the
+link in the browser, not in Hearth.
 
 **Notifications.** Once the page is on your home screen, tap **Desktops ▾ →
 Turn on notifications** and allow them. (iPhone: iOS 18.4 or newer, and the PC
