@@ -44,15 +44,50 @@ it. Nothing is forwarded into your network: Hearth dials out.
 You don't need to clone anything or build anything — Hearth is a ready-to-run
 installer. Just download it and double-click.
 
-**[⬇ Download the latest Hearth for Windows](https://github.com/mmorris35/hearth-release/releases/latest)**
+**[⬇ Download the latest Hearth for Windows or Mac](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-On that page, under **Assets**, click **`Hearth_0.3.0_x64_en-US.msi`**.
+**Windows:** on that page, under **Assets**, click **`Hearth_0.3.0_x64_en-US.msi`**. (Mac: see [On a Mac](#on-a-mac) below.)
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
 > PC"** box. **This is not a virus warning, and Hearth is not broken.** Windows
 > shows it for *any* app that hasn't paid for a code-signing certificate yet. The
 > button to continue is hidden: click **More info**, then **Run anyway**.
+
+### On a Mac
+
+On the same page, under **Assets**:
+
+- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.0_aarch64.dmg`**
+- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.0_x64.dmg`**
+
+Open the `.dmg` and drag **Hearth** into **Applications**.
+
+> ### ⚠️ The first open is blocked, on purpose
+> Hearth isn't signed with an Apple developer certificate yet, so macOS refuses
+> to open it the first time. Double-click it once and dismiss the warning. Then
+> open **System Settings → Privacy & Security**, scroll down to the message about
+> Hearth, and click **Open Anyway**. After that it opens normally.
+>
+> If macOS instead says Hearth **"is damaged and can't be opened"**, it isn't
+> damaged. That's the same missing signature, reported differently. Open
+> **Terminal** and run this once, then open Hearth again:
+> ```
+> xattr -dr com.apple.quarantine /Applications/Hearth.app
+> ```
+
+**Giving it a brain on a Mac** (instead of the PowerShell steps in step 2
+below): open **Terminal** (press ⌘-Space, type `Terminal`), paste this and press
+Enter, and let it finish:
+```
+curl -fsSL https://claude.ai/install.sh | bash
+```
+Then run `~/.local/bin/claude`, sign in with your Claude account, and close it.
+Hearth finds it there by itself.
+
+Apart from that, everything below is written for Windows but works the same on a
+Mac. The tray icon is in the **menu bar** (top right), and your wiki is at
+`~/wiki/`.
 
 ---
 
