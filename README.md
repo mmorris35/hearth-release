@@ -1,19 +1,33 @@
-# Hearth for Windows
+# Hearth
 
-A personal AI agent that runs on your own PC, and reaches your phone from
-anywhere — with no router configuration, no account, and no data stored on
-anyone else's infrastructure.
+A personal AI agent that runs on your own computer and reaches your phone from
+anywhere. There's no router to configure, no account to make, and nothing
+stored on anyone else's servers.
 
-Install the app. Talk to your agent. Scan a QR code and take it with you.
+**This is the downloads repo.** The installers for Windows, Mac and Linux are
+free to grab, because a personal agent you can't download is not one you own.
 
-**This is the downloads repo.** Hearth's source lives in a private repo; the
-Windows installer is free to grab, because a personal agent you cannot download
-is not one you own. **Hearth is Windows-only for now.**
+## The easy way: let an AI set it up
 
-- **Setting it up yourself?** Follow steps 1–4 below. About ten minutes.
-- **An AI assistant setting it up for someone?** Read
-  [For AI assistants](#for-ai-assistants) first. It has the exact commands,
-  a check for each step, and the steps only the person can do.
+Open the AI assistant you already use (Claude, ChatGPT or similar) **on the
+computer where Hearth should live**, and paste this:
+
+> Help me install Hearth on this computer. Follow the instructions at
+> https://github.com/mmorris35/hearth-release#for-ai-assistants exactly.
+> Don't download source code or build anything: install the published app.
+> If you can run commands on this computer, run each step and check it before
+> moving on. If you can't, tell me one step at a time, what I should see, and
+> wait until I say it worked. Never ask for my passwords.
+
+An assistant that can run commands, such as Claude Code or Claude's desktop app
+with computer access, will do most of the work. One that can't, such as ChatGPT
+in a browser, will walk you through it. Either way, a few steps are always
+yours:
+- clicking past the "unsigned app" security prompt
+- signing in to your Claude account
+- scanning a code with your phone
+
+**Doing it yourself?** Follow [Setting it up](#setting-it-up). About ten minutes.
 
 ---
 
@@ -230,6 +244,23 @@ encrypted: Apple or Google delivers them without being able to read them.
 Hearth → **Settings** → **Paired devices** → **Revoke**, and it can no longer
 reach your agent.
 
+### 5. Keep it running
+
+Your phone can only reach Hearth while the computer is on, awake, and running
+Hearth.
+
+- **Stop the computer sleeping** while it's plugged in.
+  - Windows: **Settings → System → Power** → sleep **Never** when plugged in.
+  - Mac: **System Settings → Energy** (on a laptop, **Displays → Advanced**) →
+    **Prevent automatic sleeping**.
+- **Start Hearth with the computer.** It doesn't do this by itself yet, and
+  Windows restarts itself for updates.
+  - Windows: press **Windows key + R**, type `shell:startup`, press Enter. In
+    that folder, right-click → **New → Shortcut**, enter
+    `C:\Program Files\Hearth\hearth-app.exe`, then **Next → Finish**.
+  - Mac: **System Settings → General → Login Items** → **+** → pick Hearth.
+  - Linux: copy `/usr/share/applications/Hearth.desktop` into `~/.config/autostart/`.
+
 ---
 
 ## Everyday use
@@ -305,7 +336,7 @@ place, in case you come back: delete `%LOCALAPPDATA%\hearth` (the agent) and
 | Installer stuck on **"Validating install"** | The old Hearth is still running. Click **Cancel**; if a *files in use* box appears, choose to close the applications and it continues. Otherwise cancel, right-click the tray icon → **Quit Hearth** (end any leftover Hearth in Task Manager), and run the `.msi` again. |
 | Replies come back blank | You're on 0.2.0. Update to the latest (see **Updating**). From 0.2.2 on, a blank answer from the model shows as an error that says where to look. |
 | The agent won't answer | Check the top of the window — it says whether the model is reachable and signed in. |
-| Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep. If you only just started Hearth, wait 15 seconds and reload. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
+| Phone says "couldn't catch up — is your desktop running?" | Hearth isn't running on the PC (check the tray), or the PC is off or asleep (see **step 5**). If you only just started Hearth, wait 15 seconds and reload. **On an iPhone, also check the PC is on 0.2.2 or newer.** |
 | Phone says "This app is out of date … Reload to update" | The phone and PC are on different versions. Reload the page; if it persists, update Hearth on the PC. |
 | Phone won't pair | Codes last five minutes and work once. Click **New code** in Hearth and type the fresh one. |
 
@@ -313,34 +344,73 @@ place, in case you come back: delete `%LOCALAPPDATA%\hearth` (the agent) and
 
 ## For AI assistants
 
-You are helping a person install Hearth on **Windows**. Do **not** clone or
-build anything; install the published `.msi`. Run each step in a normal
-PowerShell window (not PowerShell ISE), check it, and only then move on. Some
-steps need the person; tell them exactly what to click.
+You are helping a person install Hearth on their own computer. Rules first:
+
+- **Do not clone, build or compile anything,** and don't run `cargo`, `npm`
+  or `git`. Install the published app from this repo's latest release. That's
+  the whole job.
+- **Find out the operating system first,** then use the matching table below.
+- **One step at a time.** Run it, run its check, and move on only when the
+  check passes. If you can't run commands, give the person the step, tell them
+  what they should see, and wait for them to confirm.
+- **Some steps belong to the person.** Tell them exactly what to click or type,
+  then check the result yourself.
+- **Never ask for, read or store the person's passwords, Claude credentials or
+  API keys.** Claude Code keeps its own sign-in; Hearth never touches it.
+- **Leave "Let my phone do anything this computer can" off** unless the person
+  asks for it, after telling them what it allows.
+- **Add folders only when the person names them,** through **Settings →
+  Folders** in the app.
+
+### Windows (PowerShell, not PowerShell ISE)
 
 | Step | You run | It worked when | Needs the person |
 |---|---|---|---|
 | 1. Download | `$a = (Invoke-RestMethod https://api.github.com/repos/mmorris35/hearth-release/releases/latest).assets \| Where-Object name -like '*.msi'`<br/>`Invoke-WebRequest $a.browser_download_url -OutFile "$env:TEMP\$($a.name)"` | `Test-Path "$env:TEMP\$($a.name)"` is `True` | — |
 | 2. Install | If Hearth is already installed, have the person quit it from the tray first (see **Updating**).<br/>`Start-Process msiexec -Wait -ArgumentList "/i ""$env:TEMP\$($a.name)"""` | `Get-StartApps Hearth` lists Hearth | Clicking **Yes** on the Windows permission prompt, and **More info → Run anyway** if SmartScreen appears |
 | 3. Claude Code | `irm https://claude.ai/install.ps1 \| iex` | `Test-Path "$env:USERPROFILE\.local\bin\claude.exe"` is `True` | — |
-| 4. Sign in | Ask the person to open a **new** PowerShell and run `& "$env:USERPROFILE\.local\bin\claude.exe"` | `& "$env:USERPROFILE\.local\bin\claude.exe" auth status` shows `"loggedIn": true` | **All of it.** The sign-in is interactive and happens in their browser. |
-| 5. First run | Ask the person to open **Hearth** from the Start menu | `Test-Path "$env:LOCALAPPDATA\hearth\config.json"` is `True` | Answering (or skipping) the first-run questions |
-| 6. Smoke test | Ask the person to type *hello* in the window | `Get-Content "$env:LOCALAPPDATA\hearth\memory\conversation.log.md" -Tail 6` shows an assistant line **with text under it** | Typing the message |
-| 7. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
+| 4. Sign in | Ask the person to open a **new** PowerShell and run `& "$env:USERPROFILE\.local\bin\claude.exe"` | `& "$env:USERPROFILE\.local\bin\claude.exe" auth status` shows `"loggedIn": true` | **All of it.** The sign-in happens in their browser. |
+| 5. Start with Windows | `$l = (New-Object -ComObject WScript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Startup'))\Hearth.lnk"); $l.TargetPath = "C:\Program Files\Hearth\hearth-app.exe"; $l.Save()` | `Test-Path "$([Environment]::GetFolderPath('Startup'))\Hearth.lnk"` is `True` | — |
+| 6. Stay awake | `powercfg /change standby-timeout-ac 0` | The person confirms **Settings → System → Power** shows **Never** when plugged in | Confirming |
+| 7. First run | Ask the person to open **Hearth** from the Start menu | `Test-Path "$env:LOCALAPPDATA\hearth\config.json"` is `True` | Answering (or skipping) the first-run questions |
+| 8. Smoke test | Ask the person to type *hello* in the window | `Get-Content "$env:LOCALAPPDATA\hearth\memory\conversation.log.md" -Tail 6` shows an assistant line **with text under it** | Typing the message |
+| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
 
-Rules:
+If step 8 shows an assistant line with nothing under it, Hearth is older than
+0.2.2: update it (repeat steps 1–2) and test again. Folder settings live in
+`%LOCALAPPDATA%\hearth\config.json` (`"dirs"`, and `"edit_dirs"` for the ones
+the phone may edit, backslashes doubled). If you must edit it directly, quit
+Hearth from the tray first.
 
-- **Never ask for, read or store the person's Claude credentials or API keys.**
-  Claude Code keeps its own sign-in; Hearth never touches it.
-- **Folders:** add only folders the person names, through **Settings →
-  Folders** (preferred). If you must edit `%LOCALAPPDATA%\hearth\config.json`
-  directly, quit Hearth from the tray first: `"dirs"` lists the readable
-  folders and `"edit_dirs"` the subset the phone may edit, with backslashes
-  doubled.
-- **Leave "Let my phone do anything this computer can" off** unless the person
-  asks for it, after telling them what it allows.
-- If step 6 shows an assistant line with nothing under it, Hearth is older than
-  0.2.2: update it (repeat steps 1–2) and test again.
+### Mac (Terminal)
+
+| Step | You run | It worked when | Needs the person |
+|---|---|---|---|
+| 1. Download | `case $(uname -m) in arm64) k=aarch64 ;; *) k=x64 ;; esac`<br/>`u=$(curl -s https://api.github.com/repos/mmorris35/hearth-release/releases/latest \| grep -o "https://[^\"]*_${k}\.dmg")`<br/>`curl -fL -o /tmp/Hearth.dmg "$u"` | `ls -l /tmp/Hearth.dmg` shows a file of several MB | — |
+| 2. Install | `m=$(hdiutil attach /tmp/Hearth.dmg -nobrowse \| tail -1 \| awk -F'\t' '{print $NF}')`<br/>`cp -R "$m/Hearth.app" /Applications/ && hdiutil detach "$m" -quiet` | `ls -d /Applications/Hearth.app` | — |
+| 3. First open | `open -a Hearth` | Hearth's window appears | If macOS blocks it: **System Settings → Privacy & Security → Open Anyway**. If it says "damaged": run `xattr -dr com.apple.quarantine /Applications/Hearth.app` and open it again. |
+| 4. Claude Code | `curl -fsSL https://claude.ai/install.sh \| bash` | `test -x ~/.local/bin/claude && echo ok` | — |
+| 5. Sign in | Ask the person to run `~/.local/bin/claude` in Terminal | `~/.local/bin/claude auth status` shows `"loggedIn": true` | **All of it.** The sign-in happens in their browser. |
+| 6. Start at login | `osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Hearth.app", hidden:true}'` | `osascript -e 'tell application "System Events" to get the name of every login item'` includes Hearth | Allowing Terminal to control System Events, if asked |
+| 7. Stay awake | — | The person confirms the setting | **System Settings → Energy** (laptop: **Displays → Advanced**) → **Prevent automatic sleeping** |
+| 8. Smoke test | Ask the person to type *hello* in Hearth | `tail -6 ~/Library/Application\ Support/hearth/memory/conversation.log.md` shows an assistant line with text under it | Typing the message |
+| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
+
+### Linux (Ubuntu 22.04+, Debian 12+, 64-bit Intel/AMD)
+
+| Step | You run | It worked when | Needs the person |
+|---|---|---|---|
+| 1. Download | `u=$(curl -s https://api.github.com/repos/mmorris35/hearth-release/releases/latest \| grep -o 'https://[^"]*_amd64\.deb')`<br/>`curl -fL -o /tmp/hearth.deb "$u"` | `ls -l /tmp/hearth.deb` | — |
+| 2. Install | `sudo apt install -y /tmp/hearth.deb` | `command -v hearth-app` | Typing their own password for `sudo` |
+| 3. Claude Code | `curl -fsSL https://claude.ai/install.sh \| bash` | `test -x ~/.local/bin/claude && echo ok` | — |
+| 4. Sign in | Ask the person to run `~/.local/bin/claude` | `~/.local/bin/claude auth status` shows `"loggedIn": true` | **All of it.** The sign-in happens in their browser. |
+| 5. Start at login | `mkdir -p ~/.config/autostart && cp /usr/share/applications/Hearth.desktop ~/.config/autostart/` | `ls ~/.config/autostart/Hearth.desktop` | — |
+| 6. First run | `setsid hearth-app >/dev/null 2>&1 &` | `test -f ~/.local/share/hearth/config.json && echo ok` | Answering (or skipping) the first-run questions |
+| 7. Smoke test | Ask the person to type *hello* in Hearth | `tail -6 ~/.local/share/hearth/memory/conversation.log.md` shows an assistant line with text under it | Typing the message |
+| 8. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it** |
+
+The tray icon needs a desktop with tray support. GNOME needs the
+*AppIndicator* extension (Ubuntu ships it on).
 
 ---
 
@@ -379,8 +449,8 @@ love is also the one with nothing in the middle.
 
 ## What this repo does *not* contain
 
-No source code, no keys, no telemetry. Only the built Windows installer and
-release notes. If a release asset is all you can see here, that is by design.
+No source code, no keys, no telemetry. Only the built installers and release
+notes. If a release asset is all you can see here, that is by design.
 
 ## Why the name
 
