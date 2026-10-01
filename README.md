@@ -60,7 +60,7 @@ installer. Just download it and double-click.
 
 **[⬇ Download the latest Hearth for Windows, Mac or Linux](https://github.com/mmorris35/hearth-release/releases/latest)**
 
-**Windows:** on that page, under **Assets**, click **`Hearth_0.3.1_x64_en-US.msi`**. (Mac: see [On a Mac](#on-a-mac) below.)
+**Windows:** on that page, under **Assets**, click **`Hearth_0.3.2_x64_en-US.msi`**. (Mac: see [On a Mac](#on-a-mac) below.)
 
 > ### ⚠️ Read this first — the one thing that stops most people
 > When you open the installer, Windows shows a **blue "Windows protected your
@@ -72,8 +72,8 @@ installer. Just download it and double-click.
 
 On the same page, under **Assets**:
 
-- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.1_aarch64.dmg`**
-- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.1_x64.dmg`**
+- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.2_aarch64.dmg`**
+- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.2_x64.dmg`**
 
 Open the `.dmg` and drag **Hearth** into **Applications**.
 
@@ -105,11 +105,11 @@ Mac. The tray icon is in the **menu bar** (top right), and your wiki is at
 
 ### On Linux
 
-On the same page, under **Assets**, download **`Hearth_0.3.1_amd64.deb`** (64-bit
+On the same page, under **Assets**, download **`Hearth_0.3.2_amd64.deb`** (64-bit
 Intel/AMD; built on Ubuntu 22.04, so Ubuntu 22.04 or newer, Debian 12 or newer,
 and their derivatives). Install it with:
 ```
-sudo apt install ./Hearth_0.3.1_amd64.deb
+sudo apt install ./Hearth_0.3.2_amd64.deb
 ```
 Then open **Hearth** from your applications menu. The tray icon needs a desktop
 with tray support. GNOME needs the *AppIndicator* extension (Ubuntu ships it on).
