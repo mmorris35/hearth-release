@@ -25,7 +25,7 @@ in a browser, will walk you through it. Either way, a few steps are always
 yours:
 - clicking past the "unsigned app" security prompt
 - signing in to your Claude account
-- scanning a code with your phone
+- scanning a code with your phone (or opening a link you send yourself)
 
 **Doing it yourself?** Follow [Setting it up](#setting-it-up). About ten minutes.
 
@@ -227,11 +227,23 @@ sequenceDiagram
 2. In Hearth, click **Pair a device**. A code appears.
 3. Type that code into your phone. Done.
 
+**No camera, or the computer is somewhere else?** You don't need the QR code.
+
+1. In Hearth, open **Settings → Connect a phone** and click **Copy** next to the
+   Phone URL. It ends with `#` and a long id.
+2. Send that link to yourself any way you like (a text, an email, AirDrop, a
+   note) and open it on the phone in **Safari** or **Chrome**.
+3. Click **Pair a device** in Hearth and type the code into the phone, as above.
+
+The link is only your computer's address, so it's safe to send to yourself; the
+one-time pairing code is what lets a phone in.
+
 Your phone now talks to the same agent, from anywhere — no app store, no account.
 Add the page to your home screen for an app-like icon. **A second computer?**
 In the app, tap **Desktops ▾ → Add a desktop… → Scan QR** and point it at that
 computer's QR. Don't use the phone's own camera app for this: it opens the
-link in the browser, not in Hearth.
+link in the browser, not in Hearth. No camera? Tap **Add a desktop…** and paste that
+computer's link (Settings → Connect a phone → Copy) instead.
 
 **Notifications.** Once the page is on your home screen, tap **Desktops ▾ →
 Turn on notifications** and allow them. (iPhone: iOS 18.4 or newer, and the PC
@@ -374,7 +386,7 @@ You are helping a person install Hearth on their own computer. Rules first:
 | 6. Stay awake | `powercfg /change standby-timeout-ac 0` | The person confirms **Settings → System → Power** shows **Never** when plugged in | Confirming |
 | 7. First run | Ask the person to open **Hearth** from the Start menu | `Test-Path "$env:LOCALAPPDATA\hearth\config.json"` is `True` | Answering (or skipping) the first-run questions |
 | 8. Smoke test | Ask the person to type *hello* in the window | `Get-Content "$env:LOCALAPPDATA\hearth\memory\conversation.log.md" -Tail 6` shows an assistant line **with text under it** | Typing the message |
-| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
+| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR (or, with no camera at hand: Settings → Connect a phone → **Copy** the Phone URL, send it to the phone, open it in Safari or Chrome), clicking **Pair a device**, typing the code |
 
 If step 8 shows an assistant line with nothing under it, Hearth is older than
 0.2.2: update it (repeat steps 1–2) and test again. Folder settings live in
@@ -394,7 +406,7 @@ Hearth from the tray first.
 | 6. Start at login | `osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Hearth.app", hidden:true}'` | `osascript -e 'tell application "System Events" to get the name of every login item'` includes Hearth | Allowing Terminal to control System Events, if asked |
 | 7. Stay awake | — | The person confirms the setting | **System Settings → Energy** (laptop: **Displays → Advanced**) → **Prevent automatic sleeping** |
 | 8. Smoke test | Ask the person to type *hello* in Hearth | `tail -6 ~/Library/Application\ Support/hearth/memory/conversation.log.md` shows an assistant line with text under it | Typing the message |
-| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR, clicking **Pair a device**, typing the code |
+| 9. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR (or, with no camera at hand: Settings → Connect a phone → **Copy** the Phone URL, send it to the phone, open it in Safari or Chrome), clicking **Pair a device**, typing the code |
 
 ### Linux (Ubuntu 22.04+, Debian 12+, 64-bit Intel/AMD)
 
@@ -407,7 +419,7 @@ Hearth from the tray first.
 | 5. Start at login | `mkdir -p ~/.config/autostart && cp /usr/share/applications/Hearth.desktop ~/.config/autostart/` | `ls ~/.config/autostart/Hearth.desktop` | — |
 | 6. First run | `setsid hearth-app >/dev/null 2>&1 &` | `test -f ~/.local/share/hearth/config.json && echo ok` | Answering (or skipping) the first-run questions |
 | 7. Smoke test | Ask the person to type *hello* in Hearth | `tail -6 ~/.local/share/hearth/memory/conversation.log.md` shows an assistant line with text under it | Typing the message |
-| 8. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it** |
+| 8. Phone (optional) | — | The phone shows the chat instead of "not paired" | **All of it:** scanning the QR (or copying the Phone URL from Settings → Connect a phone and opening it on the phone), clicking **Pair a device**, typing the code |
 
 The tray icon needs a desktop with tray support. GNOME needs the
 *AppIndicator* extension (Ubuntu ships it on).
