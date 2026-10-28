@@ -116,6 +116,43 @@ with tray support. GNOME needs the *AppIndicator* extension (Ubuntu ships it on)
 To give it a brain, use the Mac line above (`curl -fsSL https://claude.ai/install.sh | bash`,
 then `~/.local/bin/claude` to sign in).
 
+### On a Linux box with no screen (server, or a desktop you only reach over SSH)
+
+The `.deb` above is the windowed app and needs a screen. For a headless box use
+the command-line agent instead: one file, no install, no Rust (64-bit Intel/AMD,
+Ubuntu 22.04 or newer):
+```bash
+curl -fL -o ~/hearth-desktop https://github.com/mmorris35/hearth-release/releases/latest/download/hearth-desktop-linux-x86_64
+curl -fL -o ~/hearth-desktop.sha256 https://github.com/mmorris35/hearth-release/releases/latest/download/hearth-desktop-linux-x86_64.sha256
+cd ~ && sed 's/-linux-x86_64$//' hearth-desktop.sha256 | sha256sum -c - && chmod +x hearth-desktop
+```
+(The check must print `hearth-desktop: OK`.) Keep it running as a service that
+survives reboot and logout:
+```bash
+mkdir -p ~/.config/systemd/user && cat > ~/.config/systemd/user/hearth.service <<'EOF'
+[Unit]
+Description=Hearth
+After=network-online.target
+[Service]
+Environment=HEARTH_HOME=%h/.local/share/hearth
+EnvironmentFile=-%h/.config/hearth.env
+ExecStart=%h/hearth-desktop
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=default.target
+EOF
+systemctl --user daemon-reload && systemctl --user enable --now hearth
+sudo loginctl enable-linger $USER
+```
+- **Phone link:** `journalctl --user -u hearth | grep -o 'https://mmorris35.github.io/iroh-spike/hearth/#[0-9a-f]*' | tail -1`.
+  Open it on the phone (send it to yourself; no QR needed).
+- **Pairing code:** `HEARTH_HOME=~/.local/share/hearth ~/hearth-desktop pair`, then type it on the phone.
+- **Brain:** by default it uses Claude Code (install and sign in as above). For any
+  OpenAI-compatible model instead, put `HEARTH_BASE_URL=`, `HEARTH_MODEL=` and
+  `HEARTH_API_KEY=` lines in `~/.config/hearth.env` (`chmod 600` it) and
+  `systemctl --user restart hearth`.
+
 ---
 
 ## Setting it up
