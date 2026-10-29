@@ -153,6 +153,34 @@ sudo loginctl enable-linger $USER
   `HEARTH_API_KEY=` lines in `~/.config/hearth.env` (`chmod 600` it) and
   `systemctl --user restart hearth`.
 
+#### Settings without a window (headless)
+
+Everything the **Settings** screen changes lives in one file you can edit:
+`~/.local/share/hearth/config.json`. Stop the service, edit, start it again:
+```bash
+systemctl --user stop hearth
+nano ~/.local/share/hearth/config.json
+systemctl --user start hearth
+```
+The keys you're most likely to want (leave the rest as they are):
+
+| Key | What it does | Example |
+|---|---|---|
+| `provider` | `claude-code` (your Claude account) or `openai` (any OpenAI-compatible endpoint) | `"claude-code"` |
+| `model` | The model. On Claude Code, `sonnet` goes much further than `opus` on a Pro plan | `"sonnet"` |
+| `dirs` | Folders it may **read**, beyond its own files and wiki | `["/home/you/Documents"]` |
+| `edit_dirs` | Of those, folders it may also **change** from your phone | `["/home/you/Documents"]` |
+| `phone_unrestricted` | `true` = your phone may do anything this computer's user can (run commands, edit anything). Claude Code only | `false` |
+
+- It's JSON: keep the quotes, put a comma between lines, and no comma after the last one.
+  Use full paths (`/home/you/...`); `~` doesn't work inside the file.
+- If it won't start after an edit, `journalctl --user -u hearth -n 20` names the bad line.
+- `HEARTH_BASE_URL` / `HEARTH_MODEL` / `HEARTH_API_KEY` in `~/.config/hearth.env` override
+  `provider`, `base_url` and `model`. Delete those lines if you switch back to Claude Code.
+- Folder and phone permissions mean the same as on the Settings screen: see
+  [Let it read (and edit) your folders](#let-it-read-and-edit-your-folders) and
+  [What your phone is allowed to do](#what-your-phone-is-allowed-to-do).
+
 ---
 
 ## Setting it up
@@ -292,6 +320,28 @@ encrypted: Apple or Google delivers them without being able to read them.
 **Lost your phone?** Open
 Hearth → **Settings** → **Paired devices** → **Revoke**, and it can no longer
 reach your agent.
+
+### 4b. (Optional) Use it from another computer's browser
+
+The phone page works in any desktop browser too, and installed it gets its own
+window and Dock or taskbar icon. **Install it first, then pair inside the installed
+app.** An installed app keeps its own storage, so a pairing done in a browser tab
+does not carry over to the app you install afterwards.
+
+1. On the other computer, open your Hearth link (from **Settings → Connect a phone →
+   Copy**, or `journalctl` on a headless box) in **Chrome, Edge or Safari**.
+2. **Before** pairing, install it:
+   - **Safari (Mac):** **File → Add to Dock**.
+   - **Chrome or Edge:** the **Install** icon at the right of the address bar
+     (or **⋮ → Cast, save and share → Install page as app**).
+3. Open the **installed** Hearth (from the Dock, Launchpad or Start menu), not the
+   browser tab. If it shows no desktop, tap **Desktops ▾ → Add a desktop…** and paste
+   the link.
+4. Click **Pair a device** in Hearth (or run `hearth-desktop pair` on a headless box)
+   and type the code into the installed app. Done: it's remembered there.
+
+A wide window shows your desktops in a sidebar beside the chat. Each computer you
+pair this way shows up under **Paired devices**, and you can revoke it on its own.
 
 ### 5. Keep it running
 
