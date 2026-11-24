@@ -173,6 +173,17 @@ The keys you're most likely to want (leave the rest as they are):
 | `phone_unrestricted` | `true` = your phone may do anything this computer's user can (run commands, edit anything). Claude Code only | `false` |
 
 - It's JSON: keep the quotes, put a comma between lines, and no comma after the last one.
+
+#### Homes with a kid (from 0.3.5)
+
+If you give anyone the `kid` role, every reply Hearth writes into a chat that
+person can read is first checked by a minors-safety gate. The gate needs
+`"bot_user"` in `config.json` (the computer user Hearth runs as) and its check
+files present on this computer; **if either is missing, those replies are held
+and the kid sees nothing**. It fails closed on purpose. The gate's setup is not
+packaged for outside installs yet, so until it is, don't give anyone the `kid`
+role on a headless install; use `parent` or a plain person instead. Homes with
+no kid are not affected.
   Use full paths (`/home/you/...`); `~` doesn't work inside the file.
 - If it won't start after an edit, `journalctl --user -u hearth -n 20` names the bad line.
 - `HEARTH_BASE_URL` / `HEARTH_MODEL` / `HEARTH_API_KEY` in `~/.config/hearth.env` override
