@@ -173,6 +173,13 @@ The keys you're most likely to want (leave the rest as they are):
 | `phone_unrestricted` | `true` = your phone may do anything this computer's user can (run commands, edit anything). Claude Code only | `false` |
 
 - It's JSON: keep the quotes, put a comma between lines, and no comma after the last one.
+  Use full paths (`/home/you/...`); `~` doesn't work inside the file.
+- If it won't start after an edit, `journalctl --user -u hearth -n 20` names the bad line.
+- `HEARTH_BASE_URL` / `HEARTH_MODEL` / `HEARTH_API_KEY` in `~/.config/hearth.env` override
+  `provider`, `base_url` and `model`. Delete those lines if you switch back to Claude Code.
+- Folder and phone permissions mean the same as on the Settings screen: see
+  [Let it read (and edit) your folders](#let-it-read-and-edit-your-folders) and
+  [What your phone is allowed to do](#what-your-phone-is-allowed-to-do).
 
 #### Homes with a kid (from 0.3.5)
 
@@ -184,13 +191,6 @@ and the kid sees nothing**. It fails closed on purpose. The gate's setup is not
 packaged for outside installs yet, so until it is, don't give anyone the `kid`
 role on a headless install; use `parent` or a plain person instead. Homes with
 no kid are not affected.
-  Use full paths (`/home/you/...`); `~` doesn't work inside the file.
-- If it won't start after an edit, `journalctl --user -u hearth -n 20` names the bad line.
-- `HEARTH_BASE_URL` / `HEARTH_MODEL` / `HEARTH_API_KEY` in `~/.config/hearth.env` override
-  `provider`, `base_url` and `model`. Delete those lines if you switch back to Claude Code.
-- Folder and phone permissions mean the same as on the Settings screen: see
-  [Let it read (and edit) your folders](#let-it-read-and-edit-your-folders) and
-  [What your phone is allowed to do](#what-your-phone-is-allowed-to-do).
 
 ---
 
