@@ -181,6 +181,17 @@ The keys you're most likely to want (leave the rest as they are):
   [Let it read (and edit) your folders](#let-it-read-and-edit-your-folders) and
   [What your phone is allowed to do](#what-your-phone-is-allowed-to-do).
 
+#### Homes with a kid (from 0.3.5)
+
+If you give anyone the `kid` role, every reply Hearth writes into a chat that
+person can read is first checked by a minors-safety gate. The gate needs
+`"bot_user"` in `config.json` (the computer user Hearth runs as) and its check
+files present on this computer; **if either is missing, those replies are held
+and the kid sees nothing**. It fails closed on purpose. The gate's setup is not
+packaged for outside installs yet, so until it is, don't give anyone the `kid`
+role on a headless install; use `parent` or a plain person instead. Homes with
+no kid are not affected.
+
 ---
 
 ## Setting it up
