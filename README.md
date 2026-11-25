@@ -72,8 +72,8 @@ installer. Just download it and double-click.
 
 On the same page, under **Assets**:
 
-- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.3_aarch64.dmg`**
-- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.3_x64.dmg`**
+- **Apple Silicon** (M1 or newer; Apple menu → About This Mac says "Chip: Apple M…"): **`Hearth_0.3.5_aarch64.dmg`**
+- **Intel** (About This Mac says "Processor: Intel"): **`Hearth_0.3.5_x64.dmg`**
 
 Open the `.dmg` and drag **Hearth** into **Applications**.
 
